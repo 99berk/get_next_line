@@ -11,85 +11,46 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <unistd.h>
 
-static char	*check_remainder(char **remainder);
-
-static void	ft_strdel(char **as)
+char	*ft_read_to_left_str(int fd, char *left_str)
 {
-	if (as && *as)
+	char	*buff;
+	int		rd_bytes;
+
+	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buff)
+		return (NULL);
+	rd_bytes = 1;
+	while (!ft_strchr(left_str, '\n') && rd_bytes != 0)
 	{
-		free(*as);
-		*as = NULL;
+		rd_bytes = read(fd, buff, BUFFER_SIZE);
+		if (rd_bytes == -1)
+		{
+			free(buff);
+			free(left_str);
+			return (NULL);
+		}
+		buff[rd_bytes] = '\0';
+		left_str = ft_strjoin(left_str, buff);
+		if (!left_str)
+			return (free(buff), NULL);
 	}
+	free(buff);
+	return (left_str);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*remainder;
-	char		*buff;
-	int		bytes_read;
-	char		*p_n;
-	char		*tmp;
+	char		*line;
+	static char	*left_str;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
+	left_str = ft_read_to_left_str(fd, left_str);
+	if (!left_str)
 		return (NULL);
-
-	buff = ft_strnew(BUFFER_SIZE + 1);
-	if (!buff || (read(fd, buff, 0) < 0))
-	{
-		free(buff);
-		return (NULL);
-	}
-
-	tmp = check_remainder(&remainder);
-	while (!ft_strchr(buff, '\n') && (bytes_read = read(fd, buff, BUFFER_SIZE)))
-	{
-		buff[bytes_read] = '\0';
-		if ((p_n = ft_strchr(buff, '\n')))
-		{
-			*p_n = '\0';
-			free(remainder);
-			remainder = ft_strdup(++p_n);
-		}
-		char *old_tmp = tmp;
-		tmp = ft_strjoin(tmp, buff);
-		free(old_tmp);
-		if(tmp == NULL) // handle error in ft_strjoin
-			return (NULL);
-	}
-	free(buff);
-	if (tmp && tmp[0] == '\0')
-	{
-		free(tmp);
-		return (NULL);
-	}
-	return (tmp);
+	line = ft_get_line(left_str);
+	left_str = ft_new_left_str(left_str);
+	return (line);
 }
-
-static char	*check_remainder(char **remainder)
-{
-	char	*p_n;
-	char	*res;
-
-	if (*remainder)
-	{
-		if ((p_n = ft_strchr(*remainder, '\n')))
-		{
-			*p_n = '\0';
-			res = ft_strdup(*remainder);
-			ft_strcpy(*remainder, ++p_n);
-			if (*remainder[0] == '\0')
-				ft_strdel(remainder);
-		}
-		else
-		{
-			res = ft_strdup(*remainder);
-			ft_strdel(remainder);
-		}
-	}
-	else
-		res = ft_strnew(2); //allocate extra space for '\n' and '\0'
-	return (res);
-}
-
-
