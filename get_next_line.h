@@ -5,16 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bakgun <bakgun@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 15:21:29 by bakgun            #+#    #+#             */
-/*   Updated: 2023/08/11 15:21:31 by bakgun           ###   ########.fr       */
+/*   Created: 2023/07/27 14:22:13 by bakgun            #+#    #+#             */
+/*   Updated: 2023/08/14 12:10:13 by bakgun           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <sys/types.h>
-# include <sys/uio.h>
 # include <unistd.h>
 # include <stdlib.h>
 

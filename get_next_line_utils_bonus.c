@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bakgun <bakgun@student.42kocaeli.com.tr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/11 15:22:31 by bakgun            #+#    #+#             */
-/*   Updated: 2023/08/11 15:22:33 by bakgun           ###   ########.fr       */
+/*   Created: 2023/08/14 11:36:53 by bakgun            #+#    #+#             */
+/*   Updated: 2023/08/14 12:11:03 by bakgun           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include <stdlib.h>
 
 size_t	ft_strlen(const char *s)
 {
